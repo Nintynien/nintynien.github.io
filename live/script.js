@@ -8,8 +8,15 @@ function getBearerToken() {
 
 function getActiveVideos(bearer) {
 	let query = JSON.stringify({query:`query {
-	  broadcasts (query: {viewers_gt: 0}, sortBy: VIEWERS_DESC, limit: 10) {
+	  broadcasts (query: {viewers_gt: 0}, sortBy: VIEWERS_DESC, limit: 20) {
 			activeTime
+			channelId {
+			  channelId
+			  title
+			  thumbnailHeight
+			  thumbnailUrl
+			  thumbnailWidth
+			}
 			channelTitle
 			description
 			thumbnailHeight
@@ -59,31 +66,55 @@ function removeAllChildren(holder) {
 function getSideHeader() {
 	let header = document.createElement('div');
 	header.className = "sideHeader";
-	header.innerHTML = "RECOMMENDED";
+	header.innerHTML = "TRENDING";
 	return header;
 }
 
 function getSideItem(video) {
+	let icon = document.createElement('img');
+	icon.className = "sideIcon";
+	icon.src = video.channelId.thumbnailUrl;
+	icon.height = video.channelId.thumbnailHeight;
+	icon.width = video.channelId.thumbnailWidth;
+	
+	let details = document.createElement('div');
+	details.className = "sideDetails";
+	
+	let live = document.createElement('div');
+	live.className = "live";
+	
+	let viewers = formatViews(video.viewers);
+	let views = document.createElement('div');
+	views.className = "views";
+	views.innerHTML = viewers;
+	
 	let title = document.createElement('div');
-	title.style = "font-weight: bold; text-overflow: ellipsis; overflow: hidden;";
-	title.innerHTML = video.title;
-	// title.innerHTML = video.title.replace(/🔴/g, "");
+	title.className = "sideTitle";
+	title.innerHTML = video.channelId.title;
 	
 	let description = document.createElement('div');
-	description.style = "font-size: smaller; text-overflow: ellipsis; overflow: hidden; color: lightgrey;";
-	description.innerHTML = video.viewers + " viewers";
-	// description.innerHTML = "🔴 " + video.viewers + " viewers";
+	description.className = "sideDescription";
+	description.innerHTML = video.title;
+	
+	details.appendChild(title);
+	details.appendChild(description);
 	
 	let item = document.createElement('div');
 	item.className = "sideItem";
 	item.addEventListener("click", () => onStreamClick(video));
-	item.appendChild(title);
-	item.appendChild(description);
+	item.appendChild(icon);
+	item.appendChild(details);
+	item.appendChild(live);
+	item.appendChild(views);
 	return item;
 }
 
+function formatViews(views) {
+  if (views < 1e3) return views;
+  if (views >= 1e3) return +(views / 1e3).toFixed(1) + "K";
+};
+
 function onStreamClick(video) {
-	// Create new DOM elements
 	let player = document.createElement("div");
 	player.id = "player";
 	let ytvideo = document.createElement("iframe");
@@ -99,19 +130,50 @@ function onStreamClick(video) {
 	player.appendChild(ytvideo);
 	player.appendChild(chat);
 	
+	
+	
 	let details = document.createElement("div");
 	details.id = "details";
-	let channel = document.createElement("div");
-	channel.id = "channel";
-	channel.innerHTML = video.channelTitle;
+	
 	let title = document.createElement("div");
 	title.id = "title";
 	title.innerHTML = video.title;
 	let description =  document.createElement("div");
 	description.id = "description";
-	description.innerHTML = video.description;
-	details.appendChild(channel);
+	description.innerHTML = video.description.replace(/(?:\r\n|\r|\n|\\n)/g, '<br>');
+	
+	let info = document.createElement("div");
+	info.className = "channelInfo";
+	let icon = document.createElement('img');
+	icon.className = "channelIcon";
+	icon.src = video.channelId.thumbnailUrl;
+	icon.height = video.channelId.thumbnailHeight;
+	icon.width = video.channelId.thumbnailWidth;
+	
+	let group = document.createElement("div");
+	group.className = "channelDetails";
+	
+	let channelUrl = "https://www.youtube.com/channel/" + video.channelId.channelId;
+	let channel = document.createElement("a");
+	channel.href = channelUrl;
+	channel.target = "_blank";
+	channel.rel = "noopener noreferrer";
+	let channelTitle = document.createElement("div");
+	channelTitle.className = "channelTitle";
+	channelTitle.innerHTML = video.channelTitle;
+	channel.appendChild(channelTitle);
+
+	let views = document.createElement('div');
+	views.className = "views";
+	views.innerHTML = video.viewers + " viewers";
+	group.appendChild(channel);
+	group.appendChild(views);
+	
+	info.appendChild(icon);
+	info.appendChild(group);
+	
 	details.appendChild(title);
+	details.appendChild(info);
 	details.appendChild(description);
 	
 	let content = document.getElementById("content");

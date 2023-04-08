@@ -7,9 +7,14 @@ body::-webkit-scrollbar-thumb {
 	 border: 2px solid #000;
 }
 body {
+	font-family: sans-serif;
 	color: white;
     background-color: #0e0e10;
 	margin: 0;
+}
+a {
+  color: white;
+  text-decoration: none;
 }
 iframe {
 	border: 0;
@@ -36,16 +41,60 @@ iframe {
     flex-shrink: 0;
 }
 .sideHeader {
-	margin: 5px;
-	height: 20px;
+	margin: 10px;
+	margin-bottom: 5px;
 	font-weight: bold;
-	font-size: larger;
+	font-size: smaller;
 }
 .sideItem {
-	height: 40px;
+	height: 30px;
 	margin: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
 	text-overflow: ellipsis;
     white-space: nowrap;
+	display: flex;
+}
+.sideIcon {
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+}
+.sideDetails {
+	padding-left: 10px;
+	padding-right: 10px;
+	flex-grow: 1;
+	min-width: 0;
+}
+.sideTitle {
+	font-weight: 600;
+	font-size: 0.8rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.sideDescription {
+	font-size: 0.7rem;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.live {
+    background-color: red;
+    border-radius: 50%;
+	margin: 5px;
+    width: 0.5rem;
+    height: 0.5rem;
+    display: inline-block;
+    position: relative;
+	align-self: center;
+	flex-shrink: 0;
+}
+.views {
+	font-size: smaller;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	color: lightgrey;
+	align-self: center;
+	flex-shrink: 0;
 }
 #main {
 	width: 100%;
@@ -57,8 +106,7 @@ iframe {
 #content {
 	height: 100%;
 	width: 100%;
-	display: flex;
-	flex-direction: column;
+	overflow-y: auto;
 }
 #player {
     display: flex;
@@ -78,14 +126,31 @@ iframe {
 	flex-basis: 350px;
 }
 #details {
-	padding: 5px;
+	margin: 10px;
 }
-#channel {
-	font-size: x-large;
+.channelInfo {
+	display: flex;
+	margin-top: 5px;
+}
+.channelIcon {
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+}
+.channelDetails {
+	padding-left: 10px;
+	padding-right: 10px;
+	flex-grow: 1;
+	min-width: 0;
+	align-self: center;
+}
+.channelTitle {
+	font-size: medium;
     font-weight: bold;
+	padding-bottom: 5px;
 }
 #title {
-	font-size: medium;
+	font-size: large;
     font-weight: bold;
 	margin-top: 5px;
 }
