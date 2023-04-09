@@ -19,18 +19,23 @@ a {
 iframe {
 	border: 0;
 }
+.logo {
+	position: absolute;
+	margin: 9px;
+	margin-top: 7px;
+}
 #top {
 	background-color: #181818;
 	height: 50px;
 	width:100%;
 	top: 0px;
-    position: absolute;
 	display:flex;
 	justify-content: space-between;
 	align-items: center;
 }
 .topItem {
 	padding: 15px;
+	color: #d4af37;
 }
 #side {
 	background-color: #272727;
@@ -41,6 +46,7 @@ iframe {
     flex-shrink: 0;
 }
 .sideHeader {
+	color: #d4af37;
 	margin: 10px;
 	margin-bottom: 5px;
 	font-weight: bold;
@@ -78,7 +84,7 @@ iframe {
 	overflow: hidden;
 }
 .live {
-    background-color: red;
+    background-color: #d4af37;
     border-radius: 50%;
 	margin: 5px;
     width: 0.5rem;
